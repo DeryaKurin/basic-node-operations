@@ -22,6 +22,11 @@ function evaluateCmd(userInput) {
      break;
      case "head":
      commandLibrary.head(userInputArray.slice(1));
+     break;
+     case "tail":
+     commandLibrary.tail(userInputArray.slice(1));
+     default:
+     console.log("Error: You entered an invalid command!");
   }
 }
 
@@ -39,16 +44,21 @@ const commandLibrary = {
     });
    },
    "head": function(fullPath) {
-
      const fileName = fullPath[0];
-     fs.readFile(fileName, (err, data) => {
+     fs.readFile(fileName,"utf8", (err, data) => {
          if (err) throw err;
          const content = data.split('\n').slice(0, 6).join('\n');
          done(content);
       });
+    },
+    "tail": function(fullPath) {
+      const fileName = fullPath[0];
+      fs.readFile(fileName,"utf8", (err, data) => {
+          if (err) throw err;
+          const content = data.split('\n').slice(-5).join('\n');
+          done(content);
+     });
     }
    };
-
-
 module.exports.commandLibrary = commandLibrary;
 module.exports.evaluateCmd = evaluateCmd;
